@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sorry Bestie 💔</title>
+  <title>I’m Sorry Bestie 💔</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
   <style>
@@ -65,9 +65,28 @@
         opacity: 0;
       }
     }
+
+    #typed {
+      display: inline;
+      white-space: pre-wrap;
+      overflow: hidden;
+      border-right: 2px solid #fff;
+      animation: blink .75s step-end infinite;
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent; }
+      50% { border-color: #fff; }
+    }
   </style>
 </head>
 <body class="flex items-center justify-center min-h-screen text-center p-4">
+
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="https://www.fesliyanstudios.com/play-mp3/387" type="audio/mpeg">
+    Your browser does not support audio.
+  </audio>
 
   <!-- Floating Hearts -->
   <div class="hearts">
@@ -78,46 +97,61 @@
     <div class="heart" style="left:90%; animation-delay: 3s;"></div>
   </div>
 
-  <!-- Content Container -->
-  <main id="content" class="relative z-10 max-w-xl bg-white/90 p-8 rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-500">
-    <!-- Initial Apology Message -->
+  <!-- Main Container -->
+  <main id="container" class="relative z-10 max-w-xl bg-white/90 p-8 rounded-2xl shadow-xl backdrop-blur-sm transition-all duration-500">
+    
+    <!-- Apology Message -->
     <div id="apology">
       <h1 class="text-4xl sm:text-5xl text-pink-600 mb-6 animate-pulse">I'm Really Sorry 💔</h1>
-      <p class="text-xl text-gray-700 mb-6">
-        Dear Khushi, I never meant to hurt you.</p>
-      <button
-        onclick="showThanks()"
-        class="bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full text-xl transition-all duration-300 animate-bounce"
-      >
-        Forgive Me?
-      </button>
+      <p id="typed" class="text-xl text-gray-700 mb-6 text-center"></p>
     </div>
 
-    <!-- Thank You Message (Initially Hidden) -->
+    <!-- Thank You Message -->
     <div id="thankyou" class="hidden">
       <h1 class="text-4xl sm:text-5xl text-green-600 mb-6 animate-pulse">Thank You! 💕</h1>
       <p class="text-xl text-gray-700 mb-6">
-        You have no idea how happy I am right now. Thank you for forgiving me 💫
+        Your forgiveness means everything to me. Thank you for giving us another chance. You're my forever bestie. 💫
       </p>
       <button
-        onclick="goBack()"
+        onclick="showApologyAgain()"
         class="bg-purple-500 hover:bg-purple-600 text-white py-2 px-6 rounded-full text-xl transition-all duration-300"
       >
         ⬅️ Previous
       </button>
     </div>
+
   </main>
 
   <script>
-    function showThanks() {
+    const apologyText = "Dear Bestie, I never meant to hurt you. I miss your smile, our conversations, and the bond we shared. Please forgive me. 💖";
+    let i = 0;
+    let finishedTyping = false;
+
+    function typeText() {
+      if (i < apologyText.length) {
+        document.getElementById("typed").innerHTML += apologyText.charAt(i);
+        i++;
+        setTimeout(typeText, 50);
+      } else {
+        finishedTyping = true;
+        setTimeout(showThankYou, 1500);
+      }
+    }
+
+    function showThankYou() {
       document.getElementById('apology').classList.add('hidden');
       document.getElementById('thankyou').classList.remove('hidden');
     }
 
-    function goBack() {
+    function showApologyAgain() {
       document.getElementById('thankyou').classList.add('hidden');
       document.getElementById('apology').classList.remove('hidden');
+      document.getElementById('typed').innerHTML = '';
+      i = 0;
+      typeText();
     }
+
+    window.onload = typeText;
   </script>
 
 </body>
